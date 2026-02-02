@@ -1,0 +1,135 @@
+{
+  "organization": {
+    "name": "Community Impact Foundation",
+    "type": "nonprofit_501c3",
+    "mission": "Advance equitable outcomes in education and economic opportunity through evidence-based programs and community partnership.",
+    "founded": "2015",
+    "size": "medium"
+  },
+  "beliefs": {
+    "environment": [
+      {
+        "content": "The funding landscape is shifting toward outcomes-based grantmaking and trust-based philanthropy.",
+        "confidence": 0.8,
+        "source": "Foundation landscape reports and funder conversations",
+        "last_verified": null
+      },
+      {
+        "content": "Regulatory requirements for 501(c)(3) compliance are increasing in complexity, particularly around donor-advised funds and lobbying limits.",
+        "confidence": 0.85,
+        "source": "Legal counsel review and IRS guidance updates",
+        "last_verified": null
+      },
+      {
+        "content": "The communities we serve face compounding crises in housing affordability, food access, and educational equity.",
+        "confidence": 0.9,
+        "source": "Community needs assessment 2024 and census data",
+        "last_verified": null
+      },
+      {
+        "content": "Collaborative, place-based approaches produce better outcomes than siloed program delivery.",
+        "confidence": 0.75,
+        "source": "Program evaluation data and collective impact literature",
+        "last_verified": null
+      }
+    ],
+    "capabilities": [
+      {
+        "content": "We have a strong track record of program delivery with measurable outcomes across three program areas.",
+        "confidence": 0.85,
+        "source": "Annual program evaluations and funder reports",
+        "last_verified": null
+      },
+      {
+        "content": "Our board has deep expertise in finance, law, and community development.",
+        "confidence": 0.8,
+        "source": "Board skills matrix assessment",
+        "last_verified": null
+      },
+      {
+        "content": "Current staffing is adequate for existing programs but insufficient for planned expansion.",
+        "confidence": 0.7,
+        "source": "Workload analysis and staff feedback",
+        "last_verified": null
+      }
+    ],
+    "last_reviewed": null
+  },
+  "desires": {
+    "values": [
+      {"content": "Equity in all program design, delivery, and evaluation.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Fiscal responsibility and transparent stewardship of donated resources.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Community voice centered in organizational decision-making.", "priority": 2, "measurable": false, "metric": null},
+      {"content": "Evidence-based practice grounded in both data and lived experience.", "priority": 2, "measurable": false, "metric": null}
+    ],
+    "mission_targets": [
+      {"content": "Increase annual program reach by 20% while maintaining outcome quality.", "priority": 1, "measurable": true, "metric": "program_participants_annual"},
+      {"content": "Diversify revenue so no single funder represents more than 30% of budget.", "priority": 2, "measurable": true, "metric": "revenue_concentration_ratio"},
+      {"content": "Achieve 90% or higher compliance score on all regulatory filings.", "priority": 1, "measurable": true, "metric": "compliance_score_pct"},
+      {"content": "Publish annual impact report with disaggregated demographic data.", "priority": 2, "measurable": true, "metric": "impact_report_published"}
+    ],
+    "impact_benchmarks": [
+      {"metric": "grants_awarded_annual", "target": "12", "current": null, "sdg_alignment": [17]},
+      {"metric": "program_participants_served", "target": "2000", "current": null, "sdg_alignment": [4, 8, 10]},
+      {"metric": "program_completion_rate_pct", "target": "80", "current": null, "sdg_alignment": [4]},
+      {"metric": "compliance_audit_score", "target": "95", "current": null, "sdg_alignment": [16]},
+      {"metric": "donor_retention_rate_pct", "target": "75", "current": null, "sdg_alignment": [17]}
+    ],
+    "last_reviewed": null
+  },
+  "intentions": {
+    "active_strategies": [
+      {"content": "Implement outcomes measurement framework across all program areas.", "status": "active", "started": null, "deadline": null},
+      {"content": "Develop three-year strategic plan with community input process.", "status": "active", "started": null, "deadline": null},
+      {"content": "Build individual donor pipeline to reduce foundation dependency.", "status": "active", "started": null, "deadline": null}
+    ],
+    "campaigns": [
+      {"content": "Annual fundraising campaign targeting $500K in unrestricted funding.", "status": "active", "started": null, "deadline": null},
+      {"content": "Community listening tour across five neighborhoods to inform program design.", "status": "active", "started": null, "deadline": null}
+    ],
+    "grants": [
+      {"content": "Submit proposal to Department of Education for workforce development expansion.", "status": "active", "started": null, "deadline": null},
+      {"content": "Renew community foundation general operating support grant.", "status": "active", "started": null, "deadline": null},
+      {"content": "Apply for capacity-building grant to fund new data infrastructure.", "status": "active", "started": null, "deadline": null}
+    ],
+    "last_reviewed": null
+  },
+  "principles": {
+    "equity_mandate": "All programs must demonstrate equitable access and outcomes across race, gender, disability, and income. Disparities trigger mandatory program review.",
+    "transparency_level": "full",
+    "data_sovereignty": "Participant data is collected only for program delivery and evaluation. Participants may request deletion. Data is never sold or shared beyond reporting requirements.",
+    "community_accountability": "A community advisory board reviews all major program decisions. Annual public meetings present outcomes and solicit feedback.",
+    "custom": [
+      {"name": "Fiduciary responsibility", "description": "All financial decisions prioritize the organization's charitable mission and comply with IRS 501(c)(3) requirements.", "is_bright_line": true},
+      {"name": "Donor accountability", "description": "Restricted funds are used exclusively for their designated purpose. Donors receive accurate, timely reporting.", "is_bright_line": true},
+      {"name": "Lobbying compliance", "description": "All advocacy activities stay within IRS limits. No campaign intervention. Track and report lobbying expenditures.", "is_bright_line": true},
+      {"name": "Conflict of interest", "description": "Board and staff disclose conflicts. No self-dealing in contracts, grants, or compensation decisions.", "is_bright_line": true}
+    ]
+  },
+  "kintsugi": {
+    "shadow_verification": true,
+    "divergence_threshold": 0.15,
+    "consensus_required_for": ["financial", "pii", "external_comms", "self_modification", "grant_submission", "donor_communication"],
+    "bloom_schedule": "biweekly",
+    "max_modification_scope": "tool_config"
+  },
+  "shield": {
+    "budget_per_session": 5.0,
+    "budget_per_day": 50.0,
+    "egress_allowlist": [
+      "grants.gov",
+      "sam.gov",
+      "guidestar.org",
+      "candid.org",
+      "docs.google.com",
+      "sheets.googleapis.com",
+      "quickbooks.intuit.com",
+      "mailchimp.com",
+      "slack.com"
+    ],
+    "blocked_patterns": [
+      "(?i)\\b(partisan|endorse.?candidate|campaign.?contribution)\\b",
+      "(?i)\\b(sell.?donor.?list|share.?donor.?data)\\b"
+    ]
+  }
+}

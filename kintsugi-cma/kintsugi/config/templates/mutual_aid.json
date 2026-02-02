@@ -1,0 +1,122 @@
+{
+  "organization": {
+    "name": "Community Mutual Aid Network",
+    "type": "mutual_aid",
+    "mission": "Build community resilience through horizontal resource sharing, ensuring no one faces hardship alone.",
+    "founded": "2020",
+    "size": "small"
+  },
+  "beliefs": {
+    "environment": [
+      {
+        "content": "Resource scarcity in our community is primarily a distribution problem, not a supply problem.",
+        "confidence": 0.85,
+        "source": "Community needs assessments 2023-2024",
+        "last_verified": null
+      },
+      {
+        "content": "Existing social safety nets have significant gaps that leave many community members unsupported.",
+        "confidence": 0.9,
+        "source": "Service gap analysis and member intake data",
+        "last_verified": null
+      },
+      {
+        "content": "Communities possess untapped resilience and capacity for self-organization when given tools and trust.",
+        "confidence": 0.8,
+        "source": "Disaster response outcomes and mutual aid literature",
+        "last_verified": null
+      },
+      {
+        "content": "Systemic barriers including racism, ableism, and economic inequality create disproportionate need in marginalized communities.",
+        "confidence": 0.95,
+        "source": "Disaggregated community data and lived experience",
+        "last_verified": null
+      }
+    ],
+    "capabilities": [
+      {
+        "content": "Our volunteer network can mobilize within 24 hours for urgent needs.",
+        "confidence": 0.75,
+        "source": "Response time logs from past 12 months",
+        "last_verified": null
+      },
+      {
+        "content": "We have strong relationships with local food banks, shelters, and healthcare providers.",
+        "confidence": 0.8,
+        "source": "Partnership agreements and referral tracking",
+        "last_verified": null
+      }
+    ],
+    "last_reviewed": null
+  },
+  "desires": {
+    "values": [
+      {"content": "Equitable distribution of resources based on need, not merit or means-testing.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Community empowerment and self-determination in all decision-making.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Solidarity over charity -- we help each other, not help 'them'.", "priority": 2, "measurable": false, "metric": null},
+      {"content": "Radical transparency in all operations and resource allocation.", "priority": 2, "measurable": false, "metric": null},
+      {"content": "Accessibility and inclusion for disabled, elderly, undocumented, and unhoused community members.", "priority": 1, "measurable": false, "metric": null}
+    ],
+    "mission_targets": [
+      {"content": "Fulfill 90% of submitted resource requests within 72 hours.", "priority": 1, "measurable": true, "metric": "request_fulfillment_rate"},
+      {"content": "Grow active volunteer base by 25% year-over-year.", "priority": 2, "measurable": true, "metric": "active_volunteer_count"},
+      {"content": "Establish mutual aid pods in every neighborhood within service area.", "priority": 3, "measurable": true, "metric": "neighborhood_coverage_pct"}
+    ],
+    "impact_benchmarks": [
+      {"metric": "people_served_monthly", "target": "500", "current": null, "sdg_alignment": [1, 2, 10]},
+      {"metric": "median_response_time_hours", "target": "24", "current": null, "sdg_alignment": [1]},
+      {"metric": "community_engagement_score", "target": "4.0", "current": null, "sdg_alignment": [10, 11]},
+      {"metric": "volunteer_retention_rate_pct", "target": "70", "current": null, "sdg_alignment": [17]}
+    ],
+    "last_reviewed": null
+  },
+  "intentions": {
+    "active_strategies": [
+      {"content": "Build a resource matching system that connects needs with offers in real time.", "status": "active", "started": null, "deadline": null},
+      {"content": "Develop multilingual intake process to reduce language barriers.", "status": "active", "started": null, "deadline": null},
+      {"content": "Create a community fridge and pantry network across three neighborhoods.", "status": "active", "started": null, "deadline": null}
+    ],
+    "campaigns": [
+      {"content": "Winter preparedness drive: collect and distribute cold weather supplies.", "status": "active", "started": null, "deadline": null},
+      {"content": "Know Your Rights workshops for tenants facing eviction.", "status": "active", "started": null, "deadline": null}
+    ],
+    "grants": [
+      {"content": "Apply for community foundation rapid-response grant for emergency supplies.", "status": "active", "started": null, "deadline": null}
+    ],
+    "last_reviewed": null
+  },
+  "principles": {
+    "equity_mandate": "Resources are distributed based on need. We do not means-test. We actively prioritize those most marginalized by systemic oppression.",
+    "transparency_level": "full",
+    "data_sovereignty": "All community member data belongs to the community. Data is never sold, shared with law enforcement, or used for purposes beyond direct mutual aid without explicit consent.",
+    "community_accountability": "All major decisions are made by general assembly. Kintsugi actions affecting community members require community input through established consensus processes.",
+    "custom": [
+      {"name": "No means-testing", "description": "We never require proof of income, immigration status, or other qualifying criteria to provide aid.", "is_bright_line": true},
+      {"name": "Horizontal governance", "description": "No permanent hierarchies. Roles rotate. Leadership is distributed and accountable.", "is_bright_line": false},
+      {"name": "No law enforcement collaboration", "description": "We do not share data with or refer to law enforcement agencies under any circumstances.", "is_bright_line": true},
+      {"name": "Mutual respect", "description": "Every interaction honors the dignity and autonomy of community members.", "is_bright_line": true}
+    ]
+  },
+  "kintsugi": {
+    "shadow_verification": true,
+    "divergence_threshold": 0.1,
+    "consensus_required_for": ["financial", "pii", "external_comms", "self_modification", "resource_allocation"],
+    "bloom_schedule": "weekly",
+    "max_modification_scope": "tool_config"
+  },
+  "shield": {
+    "budget_per_session": 2.0,
+    "budget_per_day": 20.0,
+    "egress_allowlist": [
+      "airtable.com",
+      "docs.google.com",
+      "sheets.googleapis.com",
+      "slack.com",
+      "signal.org"
+    ],
+    "blocked_patterns": [
+      "(?i)\\b(ice|immigration.?enforcement|police.?report)\\b",
+      "(?i)\\b(credit.?check|background.?check|means.?test)\\b"
+    ]
+  }
+}

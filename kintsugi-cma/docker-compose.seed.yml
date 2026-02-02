@@ -1,0 +1,27 @@
+# Kintsugi Seed Tier — minimal deployment for laptops/desktops.
+# No external PostgreSQL or Redis required; uses SQLite with file-backed storage.
+# Embeddings default to API mode (lighter on hardware); switch to "local" if
+# you have >=4 GB RAM to spare for the sentence-transformers model.
+#
+# Usage:
+#   docker compose -f docker-compose.seed.yml up
+#
+# Security and memory never degrade across tiers — only infrastructure weight
+# changes.  Seed tier disables shadow verification (no parallel agent).
+
+services:
+  engine:
+    build: ./engine
+    ports:
+      - "8000:8000"
+    environment:
+      DATABASE_URL: "sqlite+aiosqlite:///data/kintsugi.db"
+      DEPLOYMENT_TIER: "seed"
+      EMBEDDING_MODE: "api"  # or "local" if hardware allows
+      REDIS_URL: ""
+    volumes:
+      - kintsugi-data:/app/data
+    restart: unless-stopped
+
+volumes:
+  kintsugi-data:

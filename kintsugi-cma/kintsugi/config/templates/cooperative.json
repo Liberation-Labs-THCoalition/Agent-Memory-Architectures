@@ -1,0 +1,128 @@
+{
+  "organization": {
+    "name": "Solidarity Workers Cooperative",
+    "type": "cooperative",
+    "mission": "Build a democratically governed, worker-owned enterprise that provides dignified livelihoods while modeling an equitable alternative to extractive business.",
+    "founded": "2019",
+    "size": "small"
+  },
+  "beliefs": {
+    "environment": [
+      {
+        "content": "Democratic workplaces produce better outcomes for workers, communities, and long-term business sustainability.",
+        "confidence": 0.85,
+        "source": "Cooperative economics research and ICA reports",
+        "last_verified": null
+      },
+      {
+        "content": "Market conditions require cooperatives to be as operationally excellent as conventional businesses while maintaining democratic values.",
+        "confidence": 0.8,
+        "source": "Competitive analysis and cooperative failure case studies",
+        "last_verified": null
+      },
+      {
+        "content": "Access to cooperative-friendly financing is limited but growing through CDFIs and cooperative loan funds.",
+        "confidence": 0.7,
+        "source": "Lending landscape review and CDFI conversations",
+        "last_verified": null
+      },
+      {
+        "content": "Member education and governance literacy are the primary determinants of cooperative longevity.",
+        "confidence": 0.9,
+        "source": "Cooperative development literature and peer network experience",
+        "last_verified": null
+      }
+    ],
+    "capabilities": [
+      {
+        "content": "All worker-members have completed basic cooperative governance training.",
+        "confidence": 0.85,
+        "source": "Training records",
+        "last_verified": null
+      },
+      {
+        "content": "We maintain a six-month operating reserve.",
+        "confidence": 0.7,
+        "source": "Financial statements",
+        "last_verified": null
+      }
+    ],
+    "last_reviewed": null
+  },
+  "desires": {
+    "values": [
+      {"content": "One member, one vote in all governance decisions.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Open and voluntary membership without discrimination.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Autonomy and independence -- the cooperative is controlled by its members.", "priority": 1, "measurable": false, "metric": null},
+      {"content": "Cooperation among cooperatives to strengthen the solidarity economy.", "priority": 2, "measurable": false, "metric": null},
+      {"content": "Concern for community -- balancing member needs with broader social impact.", "priority": 2, "measurable": false, "metric": null},
+      {"content": "Equitable patronage distribution based on labor contribution, not capital.", "priority": 1, "measurable": false, "metric": null}
+    ],
+    "mission_targets": [
+      {"content": "Achieve living wage ($25/hr minimum) for all worker-members.", "priority": 1, "measurable": true, "metric": "minimum_hourly_wage"},
+      {"content": "Maintain 80%+ member participation in quarterly governance meetings.", "priority": 1, "measurable": true, "metric": "governance_participation_pct"},
+      {"content": "Grow revenue 15% year-over-year while maintaining member well-being.", "priority": 2, "measurable": true, "metric": "annual_revenue_growth_pct"},
+      {"content": "Onboard at least two new worker-members per year.", "priority": 3, "measurable": true, "metric": "new_members_annual"}
+    ],
+    "impact_benchmarks": [
+      {"metric": "member_satisfaction_score", "target": "4.2", "current": null, "sdg_alignment": [8]},
+      {"metric": "governance_participation_pct", "target": "80", "current": null, "sdg_alignment": [16]},
+      {"metric": "pay_ratio_highest_to_lowest", "target": "3.0", "current": null, "sdg_alignment": [10]},
+      {"metric": "local_procurement_pct", "target": "60", "current": null, "sdg_alignment": [8, 12]},
+      {"metric": "member_retention_rate_pct", "target": "90", "current": null, "sdg_alignment": [8]}
+    ],
+    "last_reviewed": null
+  },
+  "intentions": {
+    "active_strategies": [
+      {"content": "Develop a member education program covering financial literacy, governance, and conflict resolution.", "status": "active", "started": null, "deadline": null},
+      {"content": "Establish mentorship pipeline with experienced cooperatives in our sector.", "status": "active", "started": null, "deadline": null},
+      {"content": "Implement transparent open-book management so all members can read financials.", "status": "active", "started": null, "deadline": null}
+    ],
+    "campaigns": [
+      {"content": "Cooperative awareness campaign to attract new members from underrepresented communities.", "status": "active", "started": null, "deadline": null},
+      {"content": "Participate in regional cooperative development coalition for policy advocacy.", "status": "active", "started": null, "deadline": null}
+    ],
+    "grants": [
+      {"content": "Apply for USDA Rural Cooperative Development Grant for technical assistance.", "status": "active", "started": null, "deadline": null},
+      {"content": "Seek CDFI loan for equipment upgrade to increase production capacity.", "status": "active", "started": null, "deadline": null}
+    ],
+    "last_reviewed": null
+  },
+  "principles": {
+    "equity_mandate": "Patronage and governance rights are distributed equitably among worker-members. Pay ratios are capped. Membership pathways are accessible to all.",
+    "transparency_level": "full",
+    "data_sovereignty": "Member data is collectively owned by the cooperative. Financial data is open-book to all members. External sharing requires member vote.",
+    "community_accountability": "Major business decisions require supermajority (two-thirds) member vote. Operating decisions follow consent-based governance.",
+    "custom": [
+      {"name": "One member one vote", "description": "Every worker-member has exactly one vote regardless of tenure, role, or capital contribution.", "is_bright_line": true},
+      {"name": "Open membership", "description": "Membership is open to all who can use the cooperative's services and are willing to accept membership responsibilities, without gender, social, racial, political, or religious discrimination.", "is_bright_line": true},
+      {"name": "Democratic member control", "description": "Members actively participate in setting policies and making decisions. No individual or minority group can control the cooperative.", "is_bright_line": true},
+      {"name": "Limited return on capital", "description": "Capital receives limited compensation. Surplus is allocated to reserves, member benefit, or community support -- never to outside investors.", "is_bright_line": true},
+      {"name": "Cooperation among cooperatives", "description": "We actively support and trade with other cooperatives, strengthening the cooperative movement.", "is_bright_line": false}
+    ]
+  },
+  "kintsugi": {
+    "shadow_verification": true,
+    "divergence_threshold": 0.12,
+    "consensus_required_for": ["financial", "pii", "external_comms", "self_modification", "member_data", "governance_proposals"],
+    "bloom_schedule": "weekly",
+    "max_modification_scope": "tool_config"
+  },
+  "shield": {
+    "budget_per_session": 3.0,
+    "budget_per_day": 30.0,
+    "egress_allowlist": [
+      "docs.google.com",
+      "sheets.googleapis.com",
+      "slack.com",
+      "loomio.com",
+      "quickbooks.intuit.com",
+      "usda.gov"
+    ],
+    "blocked_patterns": [
+      "(?i)\\b(fire.?member|terminate.?member|expel)\\b",
+      "(?i)\\b(outside.?investor|equity.?sale|sell.?shares)\\b"
+    ]
+  }
+}
