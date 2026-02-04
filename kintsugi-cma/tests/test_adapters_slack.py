@@ -173,7 +173,7 @@ class TestSlackConfig:
     def test_creation_with_required_fields(self):
         """SlackConfig can be created with required fields."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
         assert config.bot_token.startswith("xoxb-")
@@ -182,7 +182,7 @@ class TestSlackConfig:
     def test_creation_with_all_fields(self):
         """SlackConfig can be created with all optional fields."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             app_token="xapp-1-A0123456789-1234567890123-abcdefghijklmnopqrstuvwxyz",
             default_org_id="org_acme",
@@ -214,7 +214,7 @@ class TestSlackConfig:
         """SlackConfig validation fails when signing_secret is empty."""
         with pytest.raises(ValueError, match="signing_secret is required"):
             SlackConfig(
-                bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+                bot_token="xoxb-fake-token-for-testing-only",
                 signing_secret="",
             )
 
@@ -222,7 +222,7 @@ class TestSlackConfig:
         """SlackConfig validation fails when app_token doesn't start with xapp-."""
         with pytest.raises(ValueError, match="app_token must start with 'xapp-'"):
             SlackConfig(
-                bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+                bot_token="xoxb-fake-token-for-testing-only",
                 signing_secret="abc123def456",
                 app_token="invalid-app-token",
             )
@@ -230,7 +230,7 @@ class TestSlackConfig:
     def test_uses_socket_mode_true_when_app_token_present(self):
         """uses_socket_mode returns True when app_token is set."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             app_token="xapp-1-A0123456789-1234567890123-abcdefghijklmnopqrstuvwxyz",
         )
@@ -239,7 +239,7 @@ class TestSlackConfig:
     def test_uses_socket_mode_false_when_no_app_token(self):
         """uses_socket_mode returns False when app_token is not set."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
         assert config.uses_socket_mode is False
@@ -247,7 +247,7 @@ class TestSlackConfig:
     def test_is_channel_type_allowed_with_default_types(self):
         """is_channel_type_allowed works with default channel types."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
         # Default types should be allowed
@@ -261,7 +261,7 @@ class TestSlackConfig:
     def test_is_channel_type_allowed_with_custom_types(self):
         """is_channel_type_allowed works with custom channel types."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             allowed_channel_types=["im"],
         )
@@ -272,7 +272,7 @@ class TestSlackConfig:
     def test_default_allowed_channel_types(self):
         """Default allowed_channel_types includes im, mpim, channel, group."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
         expected = ["im", "mpim", "channel", "group"]
@@ -291,7 +291,7 @@ class TestSlackAdapter:
     def config(self):
         """Create a valid SlackConfig for testing."""
         return SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             default_org_id="org_test",
         )
@@ -448,7 +448,7 @@ class TestSlackAdapter:
     async def test_verify_user_bypasses_when_require_pairing_false(self):
         """verify_user returns True when require_pairing is False."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             require_pairing=False,
         )
@@ -521,7 +521,7 @@ class TestSlackEventHandler:
     def config(self):
         """Create a valid SlackConfig for testing."""
         return SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             default_org_id="org_test",
         )
@@ -750,7 +750,7 @@ class TestSlackInteractionHandler:
     @pytest.fixture
     def config(self):
         return SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
         )
 
@@ -1025,7 +1025,7 @@ class TestSlackInstallation:
         return SlackInstallation(
             team_id="T12345",
             team_name="Acme Corp",
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             bot_user_id="U98765",
             installed_at=datetime(2024, 1, 15, 10, 30, 0),
             installer_user_id="U11111",
@@ -1279,7 +1279,7 @@ class TestSlackAdapterIntegration:
     def full_setup(self):
         """Create a full adapter setup for integration testing."""
         config = SlackConfig(
-            bot_token="xoxb-123456789012-1234567890123-abcdefghijklmnopqrstuvwx",
+            bot_token="xoxb-fake-token-for-testing-only",
             signing_secret="abc123def456",
             default_org_id="org_integration_test",
         )
