@@ -1,0 +1,92 @@
+# Dispatch Notion Memory - Configuration
+# Copy to config.yaml and fill in your values
+
+notion:
+  # Notion integration token (Internal Integration)
+  # Create at https://www.notion.so/my-integrations
+  token: "ntn_..."
+
+  # Database IDs from your Second Brain PARA structure
+  databases:
+    inbox: "a7e0b81a-3452-4d4d-9aec-967f70a467b7"
+    projects: "084ec1ff-eb97-4949-b239-fe42dc693222"
+    # areas: ""        # Add when Areas database exists
+    resources: "9e9dd1fc-d32b-4886-9e53-bc88f64507ed"
+    archive: "e73b5410-319a-4bc7-b792-28bea2cd545c"
+
+storage:
+  # Local SQLite-vec database for embeddings
+  sqlite_path: "./data/memory_index.db"
+
+  # Embedding model (runs locally, no GPU required)
+  embedding_model: "all-MiniLM-L6-v2"
+  embedding_dim: 384
+
+entities:
+  # spaCy model for NER
+  spacy_model: "en_core_web_sm"
+
+  # Entity types to extract
+  types:
+    - PERSON
+    - ORG
+    - PROJECT
+    - CONCEPT
+    - TOOL
+    - EVENT
+    - LOCATION
+    - DATE
+
+significance:
+  # Heuristic defaults by memory type
+  defaults:
+    standing_instruction: 1.0
+    workflow: 0.8
+    project: 0.7
+    person: 0.6
+    preference: 0.5
+    fact: 0.3
+    interaction: 0.2
+
+  # Decay half-lives (days) by ttl_class
+  half_lives:
+    permanent: null  # No decay
+    long: 90
+    medium: 30
+    short: 7
+
+  # Decay thresholds
+  archive_threshold: 0.2
+  forget_threshold: 0.1
+
+consolidation:
+  # Background schedule
+  daily:
+    enabled: true
+    hour: 3  # 3 AM local time
+    type: "light"  # Decay scoring only
+  weekly:
+    enabled: true
+    day: "sunday"
+    hour: 4
+    type: "full"  # Decay + association + compression
+  monthly:
+    enabled: true
+    day: 1
+    hour: 5
+    type: "deep"  # Full cycle + entity dedup
+
+bootstrap:
+  # What memory_bootstrap returns
+  significance_threshold: 0.8
+  include_standing_instructions: true
+  include_active_projects: true
+  include_recent_high_significance: true
+  recent_window_days: 7
+  max_memories: 50
+
+server:
+  # MCP transport
+  transport: "stdio"  # or "http"
+  host: "127.0.0.1"
+  port: 8765

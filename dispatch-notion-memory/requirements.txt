@@ -1,0 +1,28 @@
+# Core
+mcp>=1.0.0
+pydantic>=2.0
+httpx>=0.25.0
+
+# Notion
+notion-client>=2.0.0
+
+# Embeddings & Vector Search
+sqlite-vec>=0.1.0
+sentence-transformers>=2.2.0
+
+# Entity Extraction (Phase 2)
+spacy>=3.7.0
+
+# Consolidation
+apscheduler>=3.10.0
+
+# Config
+pyyaml>=6.0
+python-dotenv>=1.0.0
+
+# Quality Scoring
+onnxruntime>=1.16.0
+
+# Testing
+pytest>=7.0
+pytest-asyncio>=0.21.0
