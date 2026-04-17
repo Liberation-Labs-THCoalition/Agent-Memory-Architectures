@@ -6,6 +6,7 @@ Research and production memory systems for AI agents. Each architecture is a sel
 
 | Name | Description | Status |
 |------|-------------|--------|
+| [oracle-memory](./oracle-memory/) | Three-tier cognitive memory — KV cache recording, ACID transactions, consolidated long-term store with retroactive linking | Active |
 | [kintsugi-cma](./kintsugi-cma/) | Cognitive Memory Architecture — values-aligned, three-stage hybrid retrieval with BDI governance | Phase 1 Complete |
 
 ## Organization
