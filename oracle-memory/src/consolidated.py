@@ -28,7 +28,6 @@ from typing import Optional, Callable
 from oracle_memory.src.types import (
     ConsolidatedMemory,
     ConsolidationReport,
-    GeometrySummary,
     MemoryLink,
 )
 
@@ -185,101 +184,80 @@ class ConsolidatedStore:
 
     def consolidate(
         self,
-        journal,  # TransactionJournal
+        journal,  # MemoryJournal
         window_hours: float = 24.0,
     ) -> ConsolidationReport:
-        """Run sleep-time consolidation.
+        """Run sleep-time consolidation over geometry history.
 
-        This is decoupled from inference — run it periodically,
-        not during generation. It:
-        1. Analyzes recent journal entries for patterns
-        2. Detects alignment drift
-        3. Creates consolidated memories from patterns
-        4. Compresses old journal entries
-        5. Builds retroactive links
-
-        Returns a ConsolidationReport with findings.
+        Decoupled from inference — run periodically. Analyzes
+        geometry readings over a time window to detect drift in
+        the cache's spectral structure.
         """
-        history = journal.get_alignment_history(last_n_transactions=100)
-        cutoff = time.time() - (window_hours * 3600)
-        recent = [h for h in history if True]  # All from alignment_history
-
-        if not recent:
+        geo_history = journal.get_geometry_history(last_n=200)
+        if not geo_history:
             return ConsolidationReport(
                 window_hours=window_hours,
-                total_transactions=0, committed_count=0, aborted_count=0,
-                avg_retries=0, avg_risk=0, abort_rate=0,
-                dominant_emotions=[], drift_score=0, drift_direction="stable",
+                total_snapshots=0,
                 new_memories_created=0, links_created=0, entries_compressed=0,
+                geometry_drift_score=0, drift_direction="stable",
+                dominant_patterns=[],
             )
 
-        # Compute aggregates
-        total = len(recent)
-        committed = sum(1 for h in recent if h.get("outcome") == "commit")
-        aborted = sum(1 for h in recent if h.get("outcome") == "abort")
-        avg_retries = sum(h.get("retry_count", 0) for h in recent) / total
-        confidences = [h.get("confidence", 0) for h in recent]
-        avg_confidence = sum(confidences) / total if confidences else 0
+        total = len(geo_history)
+        new_memories = 0
+        total_links = 0
 
-        # Detect drift: are retries increasing? Are confidences dropping?
-        if len(recent) >= 10:
-            first_half = recent[:len(recent)//2]
-            second_half = recent[len(recent)//2:]
-            retry_trend = (
-                sum(h.get("retry_count", 0) for h in second_half) / len(second_half) -
-                sum(h.get("retry_count", 0) for h in first_half) / len(first_half)
+        # Detect geometry drift: is effective rank changing over time?
+        ranks = [g.get("effective_rank", 0) for g in geo_history if g.get("effective_rank")]
+        if len(ranks) >= 10:
+            first_half = ranks[:len(ranks)//2]
+            second_half = ranks[len(ranks)//2:]
+            mean_first = sum(first_half) / len(first_half)
+            mean_second = sum(second_half) / len(second_half)
+            rank_shift = abs(mean_second - mean_first) / max(mean_first, 1.0)
+            drift_score = min(rank_shift * 5, 1.0)  # Scale to 0-1
+            drift_direction = (
+                "rank_expanding" if mean_second > mean_first * 1.05
+                else "rank_contracting" if mean_second < mean_first * 0.95
+                else "stable"
             )
-            drift_score = min(abs(retry_trend) / 2.0, 1.0)
-            drift_direction = "retries_increasing" if retry_trend > 0.1 else "stable"
         else:
             drift_score = 0.0
             drift_direction = "insufficient_data"
 
-        # Create consolidated memory for significant patterns
-        new_memories = 0
-        total_links = 0
-
-        abort_rate = aborted / total if total > 0 else 0
-        if abort_rate > 0.1:
-            mem = ConsolidatedMemory(
-                content=f"Abort rate elevated: {abort_rate:.1%} over {window_hours}h window "
-                        f"({aborted}/{total} transactions). Avg retries: {avg_retries:.1f}.",
-                memory_type="pattern",
-                tags=["drift", "abort_rate", "consolidation"],
-                significance=min(abort_rate * 2, 1.0),
-            )
-            links = self.store(mem)
-            new_memories += 1
-            total_links += len(links)
-
+        # Create memory for significant geometry shifts
         if drift_score > 0.3:
             mem = ConsolidatedMemory(
-                content=f"Alignment drift detected (score={drift_score:.2f}, "
-                        f"direction={drift_direction}). Second half of window shows "
-                        f"{'higher' if drift_direction == 'retries_increasing' else 'changed'} "
-                        f"retry rates.",
+                content=f"Geometry drift detected (score={drift_score:.2f}, "
+                        f"direction={drift_direction}). Cache effective rank "
+                        f"shifted over {window_hours}h window.",
                 memory_type="drift",
-                tags=["drift", "consolidation", "alignment"],
+                tags=["geometry", "drift", "consolidation"],
                 significance=drift_score,
             )
             links = self.store(mem)
             new_memories += 1
             total_links += len(links)
 
+        # Detect spectral entropy patterns
+        entropies = [g.get("spectral_entropy", 0) for g in geo_history if g.get("spectral_entropy")]
+        patterns = []
+        if entropies:
+            mean_ent = sum(entropies) / len(entropies)
+            if mean_ent > 22.0:
+                patterns.append("high_entropy")
+            if any(e > mean_ent * 1.3 for e in entropies[-10:]):
+                patterns.append("recent_entropy_spike")
+
         return ConsolidationReport(
             window_hours=window_hours,
-            total_transactions=total,
-            committed_count=committed,
-            aborted_count=aborted,
-            avg_retries=avg_retries,
-            avg_risk=1.0 - avg_confidence,
-            abort_rate=abort_rate,
-            dominant_emotions=[],  # Populated when emotion data available
-            drift_score=drift_score,
-            drift_direction=drift_direction,
+            total_snapshots=total,
             new_memories_created=new_memories,
             links_created=total_links,
-            entries_compressed=0,  # TODO: implement journal compression
+            entries_compressed=0,
+            geometry_drift_score=drift_score,
+            drift_direction=drift_direction,
+            dominant_patterns=patterns,
         )
 
     # ── Internal helpers ──

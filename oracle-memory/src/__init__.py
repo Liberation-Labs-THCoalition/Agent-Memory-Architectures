@@ -1,17 +1,19 @@
-"""Oracle Memory — three-tier cognitive memory for AI agents.
+"""Oracle Memory — KV cache recording with Lyra Technique geometry.
 
-Tier 1: Activation Memory — KV cache snapshots (CheckpointManager)
-Tier 2: Transaction Memory — ACID event journal (TransactionJournal)
-Tier 3: Consolidated Memory — longitudinal store with retroactive linking
+A memory architecture that captures the geometric structure of the
+KV cache during inference. The cache isn't just a performance
+shortcut — its spectral features encode cognitive state.
 
-Ported from Oracle Harness Layer 4 with SOTA upgrades.
+Components:
+  CheckpointManager — snapshot/restore/label KV cache states
+  MemoryJournal — event log for cache recordings and geometry readings
+  ConsolidatedStore — long-term memory with retroactive linking
 """
 from oracle_memory.src.types import (
-    CacheState, GeometrySummary, InferenceTransaction, TransactionStatus,
-    AlignmentVerdict, AlignmentCheck, SteeringAction,
+    CacheState, GeometrySummary,
     JournalEntry, JournalEventType,
     ConsolidatedMemory, ConsolidationReport, MemoryLink,
 )
 from oracle_memory.src.checkpoint import CheckpointManager
-from oracle_memory.src.journal import TransactionJournal
+from oracle_memory.src.journal import MemoryJournal
 from oracle_memory.src.consolidated import ConsolidatedStore

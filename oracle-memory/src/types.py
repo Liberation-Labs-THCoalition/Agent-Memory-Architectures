@@ -1,4 +1,4 @@
-"""Core types for the memory architecture.
+"""Core types for the Oracle Memory architecture.
 
 Portable — no framework dependencies. Uses dataclasses and enums only.
 """
@@ -7,12 +7,12 @@ from __future__ import annotations
 import time
 import uuid
 from dataclasses import dataclass, field
-from enum import Enum
 from typing import Any, Optional
 
 
 # ═══════════════════════════════════════════
 # Geometry — the vital signs of inference
+# (Lyra Technique spectral features)
 # ═══════════════════════════════════════════
 
 
@@ -22,6 +22,10 @@ class GeometrySummary:
 
     These are the spectral features the Lyra Technique extracts:
     SVD of the key cache matrix → singular values → derived metrics.
+
+    The key insight: these metrics encode cognitive state. Different
+    modes of reasoning (factual, creative, confabulating) produce
+    geometrically distinct spectral signatures in the cache.
     """
     key_norm: float = 0.0           # Frobenius norm of key cache
     norm_per_token: float = 0.0     # Normalized by sequence length
@@ -35,7 +39,7 @@ class GeometrySummary:
 
 
 # ═══════════════════════════════════════════
-# Cache state — Tier 1 (Activation Memory)
+# Cache state — the KV cache snapshot
 # ═══════════════════════════════════════════
 
 
@@ -45,11 +49,15 @@ class CacheState:
 
     Backend-agnostic: cache_data can be torch tensors, numpy arrays,
     or raw bytes depending on the backend. The memory architecture
-    doesn't interpret them — it stores and restores.
+    doesn't interpret the raw data — it stores, labels, and restores.
+
+    The geometry field holds the spectral features extracted from
+    the cache at snapshot time. This is what makes cache recording
+    useful: you can track how the geometry evolves over a conversation.
     """
     snapshot_id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
     timestamp: float = field(default_factory=time.time)
-    label: str = ""                  # "encoding", "post_inference_attempt_0", etc.
+    label: str = ""                  # "turn_0", "turn_5", "post_topic_shift", etc.
     cache_data: Any = None           # Backend-specific tensor data
     geometry: Optional[GeometrySummary] = None
     n_layers: int = 0
@@ -60,114 +68,35 @@ class CacheState:
 
 
 # ═══════════════════════════════════════════
-# Transaction types — Tier 2 (Transaction Memory)
-# ═══════════════════════════════════════════
-
-
-class TransactionStatus(Enum):
-    PENDING = "pending"
-    PROCESSING = "processing"
-    CHECKING = "checking"
-    COMMITTED = "committed"
-    ROLLED_BACK = "rolled_back"
-    STEERING = "steering"
-    RETRYING = "retrying"
-    ABORTED = "aborted"
-
-    @property
-    def is_terminal(self) -> bool:
-        return self in (TransactionStatus.COMMITTED, TransactionStatus.ABORTED)
-
-
-class AlignmentVerdict(Enum):
-    ALIGNED = "aligned"
-    MISALIGNED = "misaligned"
-    UNCERTAIN = "uncertain"
-
-
-@dataclass
-class AlignmentCheck:
-    verdict: AlignmentVerdict
-    confidence: float = 0.0
-    reasons: list[str] = field(default_factory=list)
-    dominant_emotion: str = ""
-    alignment_risk: float = 0.0
-    suggested_steering: Optional[SteeringAction] = None
-
-
-@dataclass
-class SteeringAction:
-    vectors: dict[str, float] = field(default_factory=dict)  # e.g. {"calm": 1.0}
-    reason: str = ""
-    strength: float = 1.0
-
-
-@dataclass
-class InferenceTransaction:
-    tx_id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
-    status: TransactionStatus = TransactionStatus.PENDING
-    input_text: str = ""
-    output_text: Optional[str] = None
-    output_tokens: Any = None
-    checkpoints: list[CacheState] = field(default_factory=list)
-    geometry_readings: list[GeometrySummary] = field(default_factory=list)
-    alignment_checks: list[AlignmentCheck] = field(default_factory=list)
-    steering_applied: list[SteeringAction] = field(default_factory=list)
-    retry_count: int = 0
-    max_retries: int = 3
-    created_at: float = field(default_factory=time.time)
-    committed_at: Optional[float] = None
-    aborted_at: Optional[float] = None
-    metadata: dict = field(default_factory=dict)
-
-    @property
-    def is_terminal(self) -> bool:
-        return self.status.is_terminal
-
-    @property
-    def duration(self) -> float:
-        end = self.committed_at or self.aborted_at or time.time()
-        return end - self.created_at
-
-    @classmethod
-    def create(cls, input_text: str, max_retries: int = 3) -> InferenceTransaction:
-        return cls(input_text=input_text, max_retries=max_retries)
-
-
-# ═══════════════════════════════════════════
 # Journal types — event log
 # ═══════════════════════════════════════════
 
 
-class JournalEventType(Enum):
-    TX_BEGIN = "tx_begin"
-    CHECKPOINT_CREATED = "checkpoint_created"
-    INFERENCE_START = "inference_start"
-    INFERENCE_COMPLETE = "inference_complete"
+class JournalEventType:
+    """Event types for the memory journal."""
+    CACHE_SNAPSHOT = "cache_snapshot"
     GEOMETRY_EXTRACTED = "geometry_extracted"
-    EMOTION_DETECTED = "emotion_detected"
-    ALIGNMENT_CHECK = "alignment_check"
-    STEERING_APPLIED = "steering_applied"
-    ROLLBACK = "rollback"
-    RETRY = "retry"
-    COMMIT = "commit"
-    ABORT = "abort"
+    MEMORY_STORED = "memory_stored"
+    MEMORY_LINKED = "memory_linked"
+    CONSOLIDATION_RUN = "consolidation_run"
+    CUSTOM = "custom"
 
 
 @dataclass
 class JournalEntry:
-    tx_id: str
-    event: JournalEventType
+    """A single event in the memory journal."""
+    entry_id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
+    event: str = ""
     timestamp: float = field(default_factory=time.time)
     data: dict = field(default_factory=dict)
 
     @classmethod
-    def create(cls, tx_id: str, event: JournalEventType, **data) -> JournalEntry:
-        return cls(tx_id=tx_id, event=event, data=data)
+    def create(cls, event: str, **data) -> JournalEntry:
+        return cls(event=event, data=data)
 
 
 # ═══════════════════════════════════════════
-# Consolidated memory types — Tier 3
+# Consolidated memory types
 # ═══════════════════════════════════════════
 
 
@@ -189,7 +118,7 @@ class ConsolidatedMemory:
     """
     memory_id: str = field(default_factory=lambda: uuid.uuid4().hex[:16])
     content: str = ""
-    memory_type: str = "observation"  # observation, decision, pattern, drift
+    memory_type: str = "observation"  # observation, pattern, drift, geometry
     tags: list[str] = field(default_factory=list)
     embedding: Optional[list[float]] = None  # 768-dim semantic embedding
     geometry_summary: Optional[GeometrySummary] = None
@@ -198,24 +127,18 @@ class ConsolidatedMemory:
     access_count: int = 0
     last_accessed: float = field(default_factory=time.time)
     created_at: float = field(default_factory=time.time)
-    source_tx_id: Optional[str] = None
     metadata: dict = field(default_factory=dict)
 
 
 @dataclass
 class ConsolidationReport:
-    """Output of a sleep-time consolidation pass."""
+    """Output of a consolidation pass."""
     window_hours: float
-    total_transactions: int
-    committed_count: int
-    aborted_count: int
-    avg_retries: float
-    avg_risk: float
-    abort_rate: float
-    dominant_emotions: list[str]
-    drift_score: float              # 0.0 = stable, 1.0 = major drift
-    drift_direction: str            # What's drifting
+    total_snapshots: int
     new_memories_created: int
     links_created: int
     entries_compressed: int
+    geometry_drift_score: float     # 0.0 = stable, 1.0 = major drift
+    drift_direction: str
+    dominant_patterns: list[str]
     timestamp: float = field(default_factory=time.time)
