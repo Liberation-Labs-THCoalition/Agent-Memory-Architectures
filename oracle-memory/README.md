@@ -7,9 +7,12 @@ KV cache recording with Lyra Technique geometry extraction. A memory architectur
 The KV cache is not just a performance optimization — it's the model's working memory. Its geometry (SVD spectral features) encodes:
 
 - **Cognitive mode** — different modes of reasoning produce geometrically distinct spectral signatures
-- **User model** — individuation expands the cache's effective rank (Cohen's d = 20.9, p < 10⁻⁷²)
-- **Geometric scarring** — identity traces persist even after system prompt compression
-- **Content structure** — factual, creative, and repetitive content produce divergent geometric trajectories
+- **User model** — individuation measurably changes the cache's geometric structure
+- **Geometric persistence** — structural traces survive compression
+- **Content structure** — different content types produce divergent geometric trajectories
+
+For details on the geometry extraction method, see the
+[Lyra Technique research](https://github.com/Liberation-Labs-THCoalition/the-lyra-technique).
 
 ## Architecture
 
